@@ -1,4 +1,8 @@
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
 public class main {
@@ -31,13 +35,28 @@ public class main {
                     }
                 }
 
-                System.out.println(ganador  + " " + ventajaMax);
+                respuestaGanadorArchivo(ganador, ventajaMax);
             }
             else {
                 System.out.println("Las rondas superan las esperadas");
             }
         } catch (Exception e) {
             System.out.println("Error al abrir el archivo");
+        }
+    }
+
+    public static void respuestaGanadorArchivo(Integer ganador, Integer ventajaMax) {
+        // ruta del archivo a guardar
+        Path path = Paths.get("respuesta.txt");
+        String text = ganador + " " + ventajaMax;
+
+        try {
+            Files.write(path, text.getBytes(), StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+
+            System.out.println("Se creo el archivo");
+
+        } catch (Exception e) {
+            System.out.println("No se pudo  guardar el archivo");
         }
     }
 }
