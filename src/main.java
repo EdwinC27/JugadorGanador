@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +28,7 @@ public class main {
             ganador = 1;
 
             // verificar las rondas
-            if(rondas <= 10000) {
+            if (rondas <= 10000) {
                 // lee linea por linea
                 for (int i = 0; i < rondas; i++) {
                     puntosJugador1 += input.nextInt();
@@ -45,8 +44,7 @@ public class main {
                 }
 
                 opcGuardarArchivo();
-            }
-            else {
+            } else {
                 System.out.println("Las rondas superan las esperadas");
             }
         } catch (Exception e) {
@@ -58,15 +56,11 @@ public class main {
         System.out.println("\nYa se genero la respuesta\n1- Guardar archivo por default\n2- Modificar ruta y nombre\nQue decea: ");
         Integer opcGuardar = scanner.nextInt();
 
-        if(opcGuardar == 1) { // por defecto
-            try {
+        try {
+            if(opcGuardar == 1) { // por defecto
                 crearArchivo("respuesta.txt");
-            } catch (Exception e) {
-                System.out.println("Error al crear el archivo");
             }
-        }
-        else if(opcGuardar == 2) { // eligir ruta y nombre
-            try {
+            else if(opcGuardar == 2) { // eligir ruta y nombre
                 scanner.nextLine(); // limpiar bufer
 
                 System.out.println("Ingrese la ruta: ");
@@ -75,15 +69,21 @@ public class main {
                 System.out.println("Ingrese el nombre: ");
                 String nombre = scanner.nextLine();
 
+                // verificar si termina con .txt
+                int len = nombre.length();
+                String lastFour = nombre.substring(len-4, len);
+
+                if(!lastFour.equals(".txt")) nombre += ".txt";
+
+                // enviar los datos para crear el archivo
                 file = new File (ruta,nombre);
 
                 // A partir del objeto File creamos el fichero físicamente
                 if (file.createNewFile()) crearArchivo(String.valueOf(file));
                 else System.out.println("No ha podido ser creado el fichero");
-
-            } catch (Exception e) {
-                System.out.println("Error al crear el archivo");
             }
+        } catch (Exception e) {
+            System.out.println("Error al crear el archivo");
         }
     }
 
@@ -96,16 +96,22 @@ public class main {
             Files.write(path, text.getBytes(), StandardOpenOption.APPEND, StandardOpenOption.CREATE);
 
             System.out.println("Se creo el archivo");
-
         } catch (Exception e) {
             System.out.println("No se pudo  guardar el archivo");
         }
     }
 
     private static void abrirArchivo() {
-        // trae el archivo
-        System.out.println("Digite la ruta del archivo a abrir: ");
-        String nombre = scanner.nextLine();
+        String nombre = "file.txt";
+
+        System.out.println("1- Leer el archivo predeterminado\n2- Abrir otro archivo\nQue decea: ");
+        int res = scanner.nextInt();
+
+        if(res == 2) {
+            scanner.nextLine(); // limpiar bufer
+            System.out.println("Digite la ruta del archivo a abrir: ");
+            nombre = scanner.nextLine();
+        }
 
         file = new File(nombre);
     }
