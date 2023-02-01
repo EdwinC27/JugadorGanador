@@ -10,45 +10,49 @@ public class main {
     static Scanner scanner = new Scanner(System.in);
     static Integer ventajaMax = 0;
     static Integer ganador = 1;
+    static Integer rondas=0;
+    static Integer puntosJugador1 = 0;
+    static Integer puntosJugador2 = 0;
 
 
     public static void main(String[] args) {
         try {
+            // abrir el archivo
             abrirArchivo();
 
             // Crea un objeto Scanner para leer el archivo
             Scanner input = new Scanner(file);
 
             // Lee la cantidad de rondas
-            Integer rondas = input.nextInt();
-
-            Integer puntosJugador1 = 0;
-            Integer puntosJugador2 = 0;
-            ventajaMax = 0;
-            ganador = 1;
+            rondas = input.nextInt();
 
             // verificar las rondas
-            if (rondas <= 10000) {
-                // lee linea por linea
-                for (int i = 0; i < rondas; i++) {
-                    puntosJugador1 += input.nextInt();
-                    puntosJugador2 += input.nextInt();
+            verificarRondas(input);
 
-                    Integer ventaja = Math.abs(puntosJugador1 - puntosJugador2);
-
-                    // ventaja actual por la ventaja Maxima
-                    if (ventaja > ventajaMax) {
-                        ventajaMax = ventaja;
-                        ganador = puntosJugador1 > puntosJugador2 ? 1 : 2;
-                    }
-                }
-
-                opcGuardarArchivo();
-            } else {
-                System.out.println("Las rondas superan las esperadas");
-            }
         } catch (Exception e) {
             System.out.println("Error al abrir el archivo");
+        }
+    }
+
+    private static  void verificarRondas(Scanner input) {
+        if (rondas <= 10000) {
+            // lee linea por linea
+            for (int i = 0; i < rondas; i++) {
+                puntosJugador1 += input.nextInt();
+                puntosJugador2 += input.nextInt();
+
+                Integer ventaja = Math.abs(puntosJugador1 - puntosJugador2);
+
+                // ventaja actual por la ventaja Maxima
+                if (ventaja > ventajaMax) {
+                    ventajaMax = ventaja;
+                    ganador = puntosJugador1 > puntosJugador2 ? 1 : 2;
+                }
+            }
+
+            opcGuardarArchivo();
+        } else {
+            System.out.println("Las rondas superan las esperadas");
         }
     }
 
