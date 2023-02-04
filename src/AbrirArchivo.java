@@ -1,29 +1,48 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 
 public class AbrirArchivo {
-    public void leerArchivo() throws FileNotFoundException {
-        String nombre = "file.txt";
+    public void leerArchivo(String[] args) throws FileNotFoundException {
+        if (args.length == 2) { // mando a llamar por consola del SO
+            try (BufferedReader reader = new BufferedReader(new FileReader(Atributos.inputFileName))) {
+                Atributos.inputFileName = args[0];
+                Atributos.outputFileName = args[1];
 
-        System.out.println("1- Leer el archivo predeterminado\n2- Abrir otro archivo\nQue decea: ");
-        int res = Main.scanner.nextInt();
+                Atributos.file = new File(Atributos.inputFileName);
 
-        if (res == 2) {
-            Main.scanner.nextLine(); // limpiar bufer
-            System.out.println("Digite la ruta del archivo a abrir: ");
-            nombre = Main.scanner.nextLine();
-        }
+                if (Atributos.file.exists()) {
+                    // se creo
+                    LeerArchivo leerArchivo = new LeerArchivo();
+                    leerArchivo.leerRondas(args);
+                } else {
+                    System.out.println("Archivo no encontrado");
+                }
+            } catch (IOException e) {
+                System.out.println("Error leyendo archivo");
+            }
+        } else if (args.length == 0) {
+            String nombre = "file.txt";
 
-        Main.file = new File(nombre);
+            System.out.println("1- Abrir otro archivo\nOtro numero para leer el archivo predeterminado\nQue decea: ");
+            int res = Atributos.scanner.nextInt();
 
-        if(Main.file.exists()) {
-            // se creo
-            LeerArchivo leerArchivo = new LeerArchivo();
-            leerArchivo.leerRondas();
+            if (res == 2) {
+                Atributos.scanner.nextLine(); // limpiar bufer
+                System.out.println("Digite la ruta del archivo a abrir: ");
+                nombre = Atributos.scanner.nextLine();
+            }
+
+            Atributos.file = new File(nombre);
+
+            if (Atributos.file.exists()) {
+                // se creo
+                LeerArchivo leerArchivo = new LeerArchivo();
+                leerArchivo.leerRondas(args);
+            } else {
+                System.out.println("Archivo no encontrado");
+            }
         }
         else {
-            // mandar a llamar otra funcion de otra case para mostrar "Archivo no encontrado"
-            System.out.println("Archivo no encontrado");
+            System.out.println("El numero de parametros no coincide");
         }
     }
 }

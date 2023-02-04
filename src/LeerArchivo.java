@@ -2,43 +2,15 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class LeerArchivo {
-
-    public void leerRondas() throws FileNotFoundException {
+    public void leerRondas(String[] args) throws FileNotFoundException {
         try {
-            Main.input = new Scanner(Main.file);
-            Main.rondas = Main.input.nextInt();
+            Atributos.input = new Scanner(Atributos.file);
+            Atributos.rondas = Atributos.input.nextInt();
 
-            verificarRondas(Main.input);
+            Condiciones condiciones = new Condiciones();
+            condiciones.verificarRondas(Atributos.input, args);
         } catch (Exception e) {
             System.out.println("No se pudo leer el numero de rondas ");
-        }
-    }
-
-    public static  void verificarRondas(Scanner input) {
-        if (Main.rondas <= 10000) {
-            // lee linea por linea
-            try {
-                for (int i = 0; i < Main.rondas; i++) {
-                    Main.puntosJugador1 += input.nextInt();
-                    Main.puntosJugador2 += input.nextInt();
-
-                    Integer ventaja = Math.abs(Main.puntosJugador1 - Main.puntosJugador2);
-
-                    // ventaja actual por la ventaja Maxima
-                    if (ventaja > Main.ventajaMax) {
-                        Main.ventajaMax = ventaja;
-                        Main.ganador = Main.puntosJugador1 > Main.puntosJugador2 ? 1 : 2;
-                    }
-                }
-
-                Guardar guardar = new Guardar();
-                guardar.opcGuardarArchivo();
-            } catch(Exception ex){
-                System.out.println("El archivo contiene letras");
-            }
-
-        } else {
-            System.out.println("Las rondas superan las esperadas");
         }
     }
 }
