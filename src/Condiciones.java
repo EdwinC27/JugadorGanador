@@ -25,7 +25,6 @@ public class Condiciones {
                 verificarRondasConIngresadas();
 
                 if(lineCount == Atributos.rondas) {
-                    OpcionesGuardado opcionesGuardado = new OpcionesGuardado();
                     OpcionesGuardado.opcGuardarArchivo(args);
                 }
                 else {

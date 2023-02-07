@@ -1,18 +1,18 @@
 import java.io.*;
 
 public class AbrirArchivo {
-    public void leerArchivo(String[] args) throws FileNotFoundException {
+    public static void leerArchivo(String[] args) throws FileNotFoundException {
         if (args.length == 2) { // mando a llamar por consola del SO
+            Atributos.inputFileName = args[0]; 
+
             try (BufferedReader reader = new BufferedReader(new FileReader(Atributos.inputFileName))) {
-                Atributos.inputFileName = args[0];
                 Atributos.outputFileName = args[1];
 
                 Atributos.file = new File(Atributos.inputFileName);
 
                 if (Atributos.file.exists()) {
                     // se creo
-                    LeerArchivo leerArchivo = new LeerArchivo();
-                    leerArchivo.leerRondas(args);
+                    LeerArchivo.leerRondas(args);
                 } else {
                     System.out.println("Archivo no encontrado");
                 }
@@ -20,23 +20,20 @@ public class AbrirArchivo {
                 System.out.println("Error leyendo archivo");
             }
         } else if (args.length == 0) {
-            String nombre = "file.txt";
-
-            System.out.println("1- Abrir otro archivo\nOtro numero para leer el archivo predeterminado\nQue decea: ");
+            System.out.println("1- Abrir archivo predeterminado\nOtro numero para ingresar la ruta del archivo\nQue decea: ");
             int res = Atributos.scanner.nextInt();
 
-            if (res == 2) {
+            if (res != 1) {
                 Atributos.scanner.nextLine(); // limpiar bufer
                 System.out.println("Digite la ruta del archivo a abrir: ");
-                nombre = Atributos.scanner.nextLine();
+                Atributos.inputFileName = Atributos.scanner.nextLine();
             }
 
-            Atributos.file = new File(nombre);
+            Atributos.file = new File(Atributos.inputFileName);
 
             if (Atributos.file.exists()) {
                 // se creo
-                LeerArchivo leerArchivo = new LeerArchivo();
-                leerArchivo.leerRondas(args);
+                LeerArchivo.leerRondas(args);
             } else {
                 System.out.println("Archivo no encontrado");
             }
