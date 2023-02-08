@@ -4,7 +4,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class Guardar {
-    public void crearArchivo(String name) {
+    public static void crearArchivo(String name) {
         // ruta del archivo a guardar
         Path path = Paths.get(name);
         String text = Atributos.ganador + " " + Atributos.ventajaMax;
